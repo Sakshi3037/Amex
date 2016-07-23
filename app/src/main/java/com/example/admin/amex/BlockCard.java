@@ -30,7 +30,7 @@ public class BlockCard extends Activity {
         Intent intent = getIntent();
         userID = intent.getStringExtra("UserID");
         loginDataBaseAdapter=new DataBaseAdapter(this);
-        sender = new GmailSender("sakshi95goyal@gmail.com", "music231427");
+        sender = new GmailSender("hackathon.amex@gmail.com", "hackathon");
     }
 
     @Override
@@ -109,7 +109,7 @@ public class BlockCard extends Activity {
                 email = loginDataBaseAdapter.getEmail(userID);
                 String body = "Hello " + username + "\n Your Request to block card associated with userID " + userID + "" +
                         " has been received.\n\n Thanks \n\n AMEX";
-                sender.sendMail("Request to Block Card", body, "sakshi95goyal@gmail.com", email);
+                sender.sendMail("Request to Block Card", body, "hackathon.amex@gmail.com", email);
 
             }
             catch (Exception ex) {
