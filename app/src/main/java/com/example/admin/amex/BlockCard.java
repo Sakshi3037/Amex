@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.sql.SQLException;
@@ -20,6 +21,8 @@ public class BlockCard extends Activity {
     String username;
     String email;
     GmailSender sender;
+    int perm_flag = 1;
+    TextView user;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,6 +34,13 @@ public class BlockCard extends Activity {
         userID = intent.getStringExtra("UserID");
         loginDataBaseAdapter=new DataBaseAdapter(this);
         sender = new GmailSender("hackathon.amex@gmail.com", "hackathon");
+        try {
+            loginDataBaseAdapter=loginDataBaseAdapter.open();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        user = (TextView) findViewById(R.id.textView4);
+        user.setText("Hi " + loginDataBaseAdapter.getUserName(userID));
     }
 
     @Override
@@ -61,15 +71,13 @@ public class BlockCard extends Activity {
     public void temp_block(View view) {
 
         try {
+            perm_flag = 0;
             loginDataBaseAdapter=loginDataBaseAdapter.open();
             new MyAsyncClass().execute();
         } catch (SQLException e) {
             e.printStackTrace();
             Toast.makeText(BlockCard.this, e.toString(), Toast.LENGTH_SHORT).show();
         }
-        Intent intent = new Intent(this,Temporary.class);
-        intent.putExtra("UserID", userID);
-        startActivity(intent);
     }
 
     public void perm_block(View view) {
@@ -80,9 +88,6 @@ public class BlockCard extends Activity {
             e.printStackTrace();
             Toast.makeText(BlockCard.this, e.toString(), Toast.LENGTH_SHORT).show();
         }
-        Intent intent = new Intent(this,Permanent.class);
-        intent.putExtra("UserID", userID);
-        startActivity(intent);
     }
     public void logout(View  view) {
         Intent intent = new Intent(this, Login.class);
@@ -121,6 +126,15 @@ public class BlockCard extends Activity {
         protected void onPostExecute(Void result) {
             super.onPostExecute(result);
             pDialog.cancel();
+            Intent intent;
+            if(perm_flag == 1 ) {
+                intent = new Intent(getApplicationContext(),Permanent.class);
+            }
+            else {
+                intent = new Intent(getApplicationContext(),Temporary.class);
+            }
+            intent.putExtra("UserID", userID);
+            startActivity(intent);
         }
 
     }
