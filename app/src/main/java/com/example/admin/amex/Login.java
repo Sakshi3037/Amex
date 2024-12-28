@@ -35,8 +35,8 @@ public class Login extends Activity {
             loginDataBaseAdapter=new DataBaseAdapter(this);
             loginDataBaseAdapter=loginDataBaseAdapter.open();
             //Hard coded values
-            loginDataBaseAdapter.insertEntry("C2242", "Sakshi","sakshi95goyal@gmail.com","1a2b3c4d");
-            loginDataBaseAdapter.insertEntry("C2243","Jyoti","jyotikadian94@gmail.com","1a2b3c4d");
+            loginDataBaseAdapter.insertEntry("1", "y","y@gmail.com","1a2b3c4d");
+            loginDataBaseAdapter.insertEntry("2","x","x@gmail.com","1a2b3c4d");
         } catch (SQLException e) {
             e.printStackTrace();
         }
